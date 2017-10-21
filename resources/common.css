@@ -1,0 +1,80 @@
+*, body, html, article, section, div { padding:0; margin:0; }
+
+*, body, html, article, section, div { line-height: 1.3333; }
+
+.template {
+  display: none;
+}
+
+html {
+  font-family: 'Catamaran', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 100;
+}
+
+/* bold stuff */
+h1, h2, h3, h4, h5, h6, .story .title {
+  font-weight: 300;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+h2 {
+  font-size: 1.2rem;
+}
+h3 {
+  font-size: 1.1rem;
+}
+
+html.dark {
+  color: #fefef4;
+  background: #333;
+}
+html.bright {
+  color: #332;
+  background: #fefefe;
+}
+
+article {
+  margin: .666rem .666rem;
+}
+
+p {
+  margin-bottom: .666rem;
+}
+
+section.stories {
+  margin: 2.666rem 0;
+}
+
+.story {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  margin-bottom: 1.333rem;
+}
+
+.story .title {
+  display: inline;
+}
+
+.story .thumbnail {
+  height: 12rem;
+  margin-right: .666rem;
+}
+
+.intro .me {
+  width: 33vw;
+  max-width: 12rem;
+  float: left;
+  margin: 0 .666rem .666rem 0;
+}
+
+footer::before {
+  content: "\2014  = + = \2014";
+  display: block;
+  text-align: center;
+  margin-bottom: 2.666rem;
+}
