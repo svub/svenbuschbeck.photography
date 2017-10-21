@@ -65,6 +65,21 @@ section.stories {
   margin-right: .666rem;
 }
 
+.story .thumbnail.dummy {
+  border: .1rem solid #888;
+  width: 8rem;
+  display: inline-block;
+}
+
+.thumbnail {
+  opacity: 1;
+  transition: opacity 1s linear;
+}
+
+.thumbnail.new {
+  opacity: 0;
+}
+
 .intro .me {
   width: 33vw;
   max-width: 12rem;
