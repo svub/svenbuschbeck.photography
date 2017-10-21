@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="resources/common.css">
     <link rel="stylesheet" type="text/css" href="resources/mobile.css"  media="only screen and (max-width: 640px)">
     <link rel="stylesheet" type="text/css" href="resources/large.css"  media="only screen and (min-width: 640px)">
-    <script type="text/javascript" src="resources/modernizr-custom.js"></script>
+    <!--<script type="text/javascript" src="resources/modernizr-custom.js"></script>
     <script type="text/javascript">
     (function(){
       var d = document, s = d.createElement('script');
@@ -16,12 +16,12 @@
       s.src = 'resources/respond.min.js';
       Modernizr.mq('(min-width:0)') || d.getElementsByTagName('head')[0].appendChild(s);
     })();
-    </script>
+  </script>-->
     <script>
     // String.trim courtesy of http://javascript.crockford.com/remedial.html
     if (! String.prototype.trim) { String.prototype.trim = function () { return this.replace(/^\s*(\S*(?:\s+\S+)*)\s*$/, "$1"); }; }
     </script>
-    <script type="text/javascript" src="photos/data.js"></script>
+    <script type="text/javascript" src="resources/data.js"></script>
     <script type="text/javascript" src="resources/main.js"></script>
     <meta name="robots" content="index">
     <link rel="shortcut icon" href="favicon.jpg">
@@ -60,7 +60,8 @@
         <section class="stories">
           <div class="story template">
             <div class="text"><h2 class="title"></h2> <span class="lines"></span></div>
-            <img class="thumbnail image template">
+            <div class="thumbnail dummy">&hellip;</div>
+            <img class="new thumbnail image template">
           </div>
         </section>
         <footer>
