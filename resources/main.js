@@ -28,11 +28,11 @@ function load() {
     }
     function fullScreen(file, story) {
         let container = $('#fullscreen'),
-            img  = container.querySelectorAll("img");
+            img  = container.querySelectorAll(".image");
 
         function load(index, file, story) {
             with(img[index]) {
-                src = imageUrl(file, story.id);
+                style.backgroundImage = "url(\"" + imageUrl(file, story.id) + "\")";
                 dataset.id = file;
             }
         }
@@ -52,7 +52,9 @@ function load() {
                 setTimeout(function() { loadNext(current, img[next].dataset.id, story); }, 500);
             }
             //img[0].onclick = function() { toggle(0); }
-            img[1].onclick = function() { toggle(); }
+            //img[1].onclick = function() { toggle(); }
+            img[1].addEventListener('click', function(e) { e.stopPropagation(); toggle(); }, false);
+            container.querySelector(".close").addEventListener('click', function(e) { e.stopPropagation(); container.classList.remove("showing"); }, false);
         }
 
         load(0, file, story);

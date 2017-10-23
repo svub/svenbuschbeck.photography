@@ -101,9 +101,9 @@ footer::before {
   right: 100%;
   bottom: 0;
   left: -100%;
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, .9);
   opacity: 0;
-  transition: all .5s linear;
+  transition: all .666s ease;
 }
 #fullscreen.showing {
   opacity: 1;
@@ -112,15 +112,30 @@ footer::before {
   bottom: 0;
   left: 0;
 }
-
-#fullscreen img {
+#fullscreen .image {
   position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   max-width: 100%;
   max-height: 100%;
+  background: center no-repeat;
+  background-size: contain; /* not compatible with background */
   opacity: 0;
-  transition: opacity .333s linear;
+  transition: opacity .666s ease;
 }
 
-#fullscreen img.current {
+#fullscreen .image.current {
   opacity: 1;
+}
+
+#fullscreen .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: .333;
+  color: white;
+  font-size: 2rem;
+  padding: 0 .666rem;
 }
