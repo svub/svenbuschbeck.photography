@@ -1,14 +1,12 @@
-let $=document.querySelector.bind(document), $$=document.querySelectorAll.bind(document);
-
 function load() {
     let local = location.href.indexOf('file:///') > -1,
-        container = $("section.stories"),
+        container = document.querySelector("section.stories"),
         storyTemplate = getTemplate(".story", container),
         imageTemplate = getTemplate("img", storyTemplate),
         fullscreenInitialized = false;
 
     function getTemplate(selector, container) {
-        let template = $(selector + ".template", container);
+        let template = document.querySelector(selector + ".template", container);
         template = template.cloneNode(true);
         //let classes = template.attributes.getNamedItem("class")
         //classes.nodeValue = classes.nodeValue.replace("template", "").trim();
@@ -19,21 +17,24 @@ function load() {
         container.appendChild(node);
     }
     function imageUrl(file, storyId, thumbnail) {
-        // TODO find good bounding box values for w and h depending on device
-        // current values are max bb as used for full hd display
-        let width = 430, height = 288,
+        // for mobile, the thumbnails could be 360x240, should be about the same
+        let width = 431, height = 288,
             fileLocation = "../photos/" + storyId + "/" + file;
-        if (!thumbnail) width = height = Math.max(window.innerWidth, window.innerHeight);
+        // phones are about 600-700px high, tablets around 1000, so 400-based steps should be fine
+        if (!thumbnail) width = height = Math.ceil(Math.max(window.innerWidth, window.innerHeight) / 400) * 400;
         return local ? fileLocation : "http://svenbuschbeck.photography/phpThumb/phpThumb.php?w=" + width + "&h=" + height + "&src=../" + fileLocation;
     }
     function fullScreen(file, story) {
-        let container = $('#fullscreen'),
-            img  = container.querySelectorAll(".image");
+        let container = document.querySelector('#fullscreen'),
+            img       = container.querySelectorAll(".image"),
+            buy       = container.querySelector(".buy");
+            checkout  = container.querySelector(".checkout");
 
         function load(index, file, story) {
             with(img[index]) {
-                style.backgroundImage = "url(\"" + imageUrl(file, story.id) + "\")";
                 dataset.id = file;
+                dataset.url = imageUrl(file, story.id);
+                style.backgroundImage = "url(\"" + dataset.url + "\")";
             }
         }
         function nextId(currentId, story) {
@@ -42,29 +43,54 @@ function load() {
         function loadNext(index, currentId, story) {
             load(index, nextId(currentId, story), story);
         }
-        if (!fullscreenInitialized) {
-            function toggle() {
-                let current = 0, next = 1;
-                if (img[1].classList.contains("current")) { current = 1; next = 0; }
-                img[current].classList.remove("current");
-                img[next].classList.add("current");
-                // TODO wait for animation to end
-                setTimeout(function() { loadNext(current, img[next].dataset.id, story); }, 500);
+        function getCurrent() {
+            return img[0].classList.contains("current") ? 0 : 1;
+        }
+        function setCurrent(index) {
+            img[index].classList.add("current");
+            img[index ^ 1].classList.remove("current");
+
+            if (typeof FMJQ == "function") {
+                checkout.classList.toggle("show", FOTOMOTO.API.getTotalItems() > 0);
+                FOTOMOTO.API.checkinImage(img[index].src);
             }
-            //img[0].onclick = function() { toggle(0); }
-            //img[1].onclick = function() { toggle(); }
+            return index;
+        }
+        if (!fullscreenInitialized) {
+            fullscreenInitialized = true;
+            function toggle() {
+                let current = getCurrent(), next = current ^ 1;
+                setCurrent(next);
+                // TODO wait for animation to end
+                setTimeout(function() { loadNext(current, img[next].dataset.id, story); }, 666);
+            }
             img[1].addEventListener('click', function(e) { e.stopPropagation(); toggle(); }, false);
-            container.querySelector(".close").addEventListener('click', function(e) { e.stopPropagation(); container.classList.remove("showing"); }, false);
+            container.querySelector(".close").addEventListener('click', function(e) {
+                e.stopPropagation();
+                container.classList.remove("showing");
+            }, false);
+            buy.addEventListener('click', function(e) {
+                e.stopPropagation();
+                FOTOMOTO.API.showWindow(FOTOMOTO.API.CANVAS, img[getCurrent()].dataset.url);
+            }, false);
+            checkout.addEventListener('click', function(e) {
+                e.stopPropagation();
+                FOTOMOTO.API.checkout();
+            }, false);
+            (function() {
+                //console.log(0);
+                if (typeof FMJQ == "function") {
+                    //console.log(FMJQ.isReady);
+                    if (FMJQ.isReady) return buy.classList.add("show");
+                }
+                setTimeout(arguments.callee, 250);
+            })();
         }
 
         load(0, file, story);
-        loadNext(1, file, story);
-        img[0].classList.add("current");
-        img[1].classList.remove("current");
+        setTimeout(function() { loadNext(1, file, story); }, 100);
+        setCurrent(0);
         container.classList.add("showing")
-        //img.onload = function() {
-        //    next.src = getUrl(getNext(image));
-        //}
     }
     function renderStory(template, data) {
         function loadImages(list, story, container) {
