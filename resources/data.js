@@ -18,12 +18,12 @@ addData(
 addData(
     "abandoned",
     "Abandoned",
-    "Urban moon landscapes.",
+    "Urban moon landscapes, forgotten places.",
     ["01-38790027_.jpg","02-38790023_.jpg","03-38790025.jpg","04-38790026.jpg","05-000366650025_.jpg","06-000366650027.jpg","07-38790028.jpg"]);
 addData(
     "what-we-do",
     "What we do",
-    "Work might be a negative word sometimes. It's what we do, our contribution to society that we feel passion and joy for, that we can take humble pride in.",
+    "It's what people do, their contribution to society that they feel passion and joy for, that they take humble pride in.",
     ["01-__0_00043.jpg","02-__9_00052.jpg","03-__5_00048.jpg","04-_37_00080___.jpg","05-_16_00059_.jpg","06-_30_00073_.jpg","08-__6_00049_.jpg","09-__7_00050_.jpg","10-__8_00051.jpg","11-_12_00055.jpg"]);
 addData(
     "from-place-to-place",
@@ -33,18 +33,18 @@ addData(
 addData(
     "heritage",
     "Heritage",
-    "Monuments for our roots and origins.",
-    ["00-000372030030_.jpg","01-38790033_.jpg","02-IMG_20161221_0027.jpg","03-000372030031.jpg","04-000366650015.jpg","14-38790013_.jpg"]);
+    "Monuments of our roots and origins.",
+    ["01-38790033_.jpg","02-IMG_20161221_0027.jpg","03-000372030031.jpg","00-000372030030_.jpg","04-000366650015.jpg","14-38790013_.jpg"]);
 addData(
     "places-we-live",
     "Places we live",
-    "Places as diverse as the people and families that live in them, with their thoughts, worries, believes, and values.",
-    ["01-_27_00070.jpg","02-F1010026_.JPG","03-imm033_N33.jpg","04-_35_00078.jpg","05-000366650019.jpg","06-_36_00079_.jpg","07-imm034_N34_.JPG","08-38790014.jpg","08a-000366650024_.jpg","09-38790020.jpg","10-000366650011.jpg","11-000372030032.jpg","12-F1000001.JPG","13-F1000002.JPG","15-F1000006.JPG","16-F1000036.JPG","17-F1010025.JPG","18-IMG_20161221_0004.jpg","19-IMG_20161221_0006.jpg","20-imm032_N32.jpg","21-IMG_20161221_0018.jpg","22-imm017_N17.jpg","23-imm019_N19.jpg"]);
+    "The places are as diverse as the people and families that live in them, with their believes, thoughts, ideas, worries, and values.",
+    ["01-_27_00070.jpg","02-F1010026_.JPG","03-imm033_N33.jpg","04-_35_00078.jpg","05-000366650019.jpg","06-_36_00079_.jpg","07-imm034_N34_.JPG","08-38790014.jpg","08a-000366650024_.jpg","09-38790020.jpg","10-000366650011.jpg","11-000372030032.jpg","12-F1000001.JPG","23-imm019_N19.jpg","13-F1000002.JPG","15-F1000006.JPG","16-F1000036.JPG","17-F1010025.JPG","18-IMG_20161221_0004.jpg","19-IMG_20161221_0006.jpg","20-imm032_N32.jpg","21-IMG_20161221_0018.jpg","22-imm017_N17.jpg"]);
 
 addData(
     "social",
     "Among our peers",
-    "As humans, we are social animals. Our deepest beliefs are shaped and revealed by our social interactions.",
+    "As humans, we are social animals. We need to give and receive love as much as we need to breathe. Our deepest beliefs are shaped and revealed by our social interactions.",
     ["01-_15_00058_.jpg","02-IMG_20161221_0030_.jpg","03-imm035_N35.jpg","04-__1_00044_.jpg","05-38790002.jpg","06-__2_00045.jpg","07-IMG_20161221_0019.jpg"]);
 addData(
     "street-food",
@@ -54,7 +54,7 @@ addData(
 addData(
     "what-we-feel",
     "What we feel",
-    "In moments of when we are unaware of our environment, our faces speak.",
+    "In moments when we are unaware of our environment, our faces speak.",
     ["000366650002.jpg","000366650028.jpg","000366650036_.jpg","F1000008.JPG"]);
 
 
