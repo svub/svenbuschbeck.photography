@@ -13,7 +13,7 @@ html {
 }
 
 /* bold stuff */
-h1, h2, h3, h4, h5, h6, .story .title {
+h1, h2, h3, h4, h5, h6, .story .title, a {
   font-weight: 300;
 }
 
@@ -31,9 +31,18 @@ html.dark {
   color: #fefef4;
   background: #333;
 }
+html.dark a {
+  color: #fff;
+  text-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
 html.bright {
   color: #332;
   background: #fefefe;
+}
+html.bright a {
+  color: #110;
+  text-shadow: 0 0 1px rgba(16, 16, 0, .125);
 }
 
 article {
@@ -42,6 +51,10 @@ article {
 
 p {
   margin-bottom: .666rem;
+}
+
+a {
+  text-decoration: none;
 }
 
 section.stories {
@@ -62,9 +75,10 @@ section.stories {
 
 .story .thumbnail {
   height: 12rem;
+}
+.story .thumbnail:not(:last-child) {
   margin-right: .666rem;
 }
-
 .story .thumbnail.dummy {
   background: #888;
   opacity: .25;
@@ -85,7 +99,7 @@ section.stories {
   width: 33vw;
   max-width: 12rem;
   float: left;
-  margin: 0 .666rem .666rem 0;
+  margin: .15rem .666rem .666rem 0;
 }
 
 footer::before {
