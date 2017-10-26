@@ -100,11 +100,11 @@ function load() {
                 dummy;
             image.dataset.id = file;
             image.src = imageUrl(file, story.id, true);
-            image.onload = function() {
+            image.onload = image.onerror = function(event) {
                 if (dummy = container.querySelector(".dummy")) {
                     container.removeChild(dummy);
                 }
-                add(image, container);
+                if (event.type != "error") add(image, container);
                 setTimeout(function(){
                     image.classList.remove("new");
                     image.onclick = function() {
