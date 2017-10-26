@@ -93,13 +93,14 @@ function load() {
         container.classList.add("showing")
     }
     function renderStory(template, data) {
-        function loadImages(list, story, container) {
-            if (list.length < 1) return;
-            let file = list.shift(),
+        function loadImages(story, index, container, priority) {
+            if (index >= story.files.length) return;
+            let file = story.files[index],
                 image = imageTemplate.cloneNode(),
                 dummy;
             image.dataset.id = file;
             image.src = imageUrl(file, story.id, true);
+            console.log(image.classList.contains("new"));
             image.onload = image.onerror = function(event) {
                 if (dummy = container.querySelector(".dummy")) {
                     container.removeChild(dummy);
@@ -110,8 +111,8 @@ function load() {
                     image.onclick = function() {
                         fullScreen(file, story);
                     }
-                    loadImages(list, story, container);
-                }, 1);
+                    loadImages(story, index + 1, container, priority);
+                }, 1 + index*10 + priority*50);
             }
         }
         let story = template.cloneNode(true);
@@ -121,12 +122,13 @@ function load() {
             for (let x = 0; x < Math.random()*100; x++) storyLines += " yada"
         story.querySelector(".lines").innerText = storyLines;
         let counter = 0;
-        loadImages(storyData.files.slice(), storyData, story);
+        loadImages(storyData, 0, story, priority);
         return story;
     }
 
+    let priority = 0
     for (storyData of data) {
-        storyElement = renderStory(storyTemplate, storyData);
+        storyElement = renderStory(storyTemplate, storyData, priority++)
         add(storyElement, container);
     }
 }
