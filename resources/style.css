@@ -173,16 +173,35 @@ footer::before {
 
 #fullscreen .buy, #fullscreen .checkout {
   display: none;
+  font-size: 1.5rem;
 }
 #fullscreen .buy.show, #fullscreen .checkout.show {
   display: block;
+}
+@media screen and (orientation: landscape) {
+  #fullscreen .buy, #fullscreen .checkout {
+    transform: rotate(-90deg);
+    transform-origin: bottom left;
+    left: 100%;
+    right: auto;
+    white-space: nowrap;
+    padding-bottom: .333rem;
+  }
+  #fullscreen .checkout {
+    transform: rotate(90deg);
+    transform-origin: bottom right;
+    right: 100%;
+    left: auto;
+    white-space: nowrap;
+    padding-bottom: .333rem;
+  }
 }
 
 #fotomoto_view_cart_float {
   display: none;
 }
 
-@media (screen and (max-width: 640px) and (orientation: portrait)), (screen and (max-height: 640px) and (orientation: landscape)) {
+@media screen and (max-width: 640px) and (orientation: portrait), screen and (max-height: 640px) and (orientation: landscape) {
   html {
     font-size: 20px;
   }
@@ -194,7 +213,7 @@ footer::before {
   }
 }
 
-@media (screen and (min-width: 640px) and (orientation: portrait)), (screen and (min-height: 640px) and (orientation: landscape)) {
+@media screen and (min-width: 640px) and (orientation: portrait), screen and (min-height: 640px) and (orientation: landscape) {
   html {
     font-size: 24px;
   }
