@@ -149,6 +149,9 @@ footer::before {
   opacity: .333;
   color: white;
   padding: 0 .666rem;
+  cursor: pointer;
+  background: black;
+  border-radius: 2px;
 }
 
 #fullscreen .close {
@@ -160,15 +163,11 @@ footer::before {
 #fullscreen .buy {
   bottom: 0;
   right: 0;
-  background: black;
-  cursor: pointer;
 }
 
 #fullscreen .checkout {
   bottom: 0;
   left: 0;
-  background: black;
-  cursor: pointer;
 }
 
 #fullscreen .buy, #fullscreen .checkout {
