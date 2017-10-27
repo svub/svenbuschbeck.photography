@@ -1,3 +1,5 @@
+let fotomotoLoaded = false;
+    fotomotoCallback = [];
 function load() {
     let local = location.href.indexOf('file:///') > -1,
         container = document.querySelector("section.stories"),
@@ -46,12 +48,13 @@ function load() {
         function getCurrent() {
             return img[0].classList.contains("current") ? 0 : 1;
         }
+        function checkCart() {
+        }
         function setCurrent(index) {
             img[index].classList.add("current");
             img[index ^ 1].classList.remove("current");
 
-            if (typeof FMJQ == "function") {
-                checkout.classList.toggle("show", FOTOMOTO.API.getTotalItems() > 0);
+            if (fotomotoLoaded) {
                 FOTOMOTO.API.checkinImage(img[index].src);
             }
             return index;
@@ -77,14 +80,20 @@ function load() {
                 e.stopPropagation();
                 FOTOMOTO.API.checkout();
             }, false);
-            (function() {
-                //console.log(0);
-                if (typeof FMJQ == "function") {
-                    //console.log(FMJQ.isReady);
-                    if (FMJQ.isReady) return buy.classList.add("show");
-                }
-                setTimeout(arguments.callee, 250);
-            })();
+            //(function() {
+            //    if (fotomotoLoaded) {
+            //        if (FMJQ.isReady) {
+            //            return buy.classList.add("show");
+            //        }
+            //    }
+            //    setTimeout(arguments.callee, 250);
+            //})();
+            fotomotoCallback.push(function() {
+                buy.classList.add("show");
+                setInterval(function() {
+                    checkout.classList.toggle("show", FOTOMOTO.API.getTotalItems() > 0);
+                }, 1000);
+            });
         }
 
         load(0, file, story);
@@ -100,7 +109,6 @@ function load() {
                 dummy;
             image.dataset.id = file;
             image.src = imageUrl(file, story.id, true);
-            console.log(image.classList.contains("new"));
             image.onload = image.onerror = function(event) {
                 if (dummy = container.querySelector(".dummy")) {
                     container.removeChild(dummy);
@@ -130,6 +138,13 @@ function load() {
     for (storyData of data) {
         storyElement = renderStory(storyTemplate, storyData, priority++)
         add(storyElement, container);
+    }
+}
+
+function fotomoto_loaded() {
+    fotomotoLoaded = true;
+    for (callback of fotomotoCallback) {
+        callback();
     }
 }
 
