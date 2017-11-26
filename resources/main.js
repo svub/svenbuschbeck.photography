@@ -25,6 +25,7 @@ function load() {
         // phones are about 600-700px high, tablets around 1000, so 400-based steps should be fine
         if (!thumbnail) width = height = Math.ceil(Math.max(window.innerWidth, window.innerHeight) / 400) * 400;
         return local ? fileLocation : "http://svenbuschbeck.photography/phpThumb/phpThumb.php?w=" + width + "&h=" + height + "&src=../" + fileLocation;
+        //return local ? fileLocation : "http://svenbuschbeck.photography/phpThumb/phpThumb.php/" + width + "x" + height + ";../" + fileLocation;
     }
     function fullScreen(file, story) {
         let container = document.querySelector('#fullscreen'),
