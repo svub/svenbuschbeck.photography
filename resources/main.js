@@ -1,3 +1,4 @@
+"strict mode";
 let fotomotoLoaded = false;
     fotomotoCallback = [];
 function load() {
@@ -132,7 +133,7 @@ function load() {
             }
         }
         let story = template.cloneNode(true);
-        story.querySelector(".title").innerText = storyData.title;
+        story.querySelector(".title").innerText = storyData.title + ".";
         let storyLines = storyData.text;
         if (storyLines == "yada")
             for (let x = 0; x < Math.random()*100; x++) storyLines += " yada"
