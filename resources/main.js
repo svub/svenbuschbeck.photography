@@ -4,8 +4,7 @@ function load() {
     let local = location.href.indexOf('file:///') > -1,
         container = document.querySelector("section.stories"),
         storyTemplate = getTemplate(".story", container),
-        imageTemplate = getTemplate("img", storyTemplate),
-        fullscreenInitialized = false;
+        imageTemplate = getTemplate("img", storyTemplate);
 
     function getTemplate(selector, container) {
         let template = document.querySelector(selector + ".template", container);
@@ -60,47 +59,55 @@ function load() {
             }
             return index;
         }
-        if (!fullscreenInitialized) {
-            fullscreenInitialized = true;
-            function toggle() {
-                let current = getCurrent(), next = current ^ 1;
-                setCurrent(next);
-                // TODO wait for animation to end
-                setTimeout(function() { loadNext(current, img[next].dataset.id, story); }, 666);
-            }
-            img[1].addEventListener('click', function(e) { e.stopPropagation(); toggle(); }, false);
-            container.querySelector(".close").addEventListener('click', function(e) {
-                e.stopPropagation();
-                container.classList.remove("showing");
-            }, false);
-            buy.addEventListener('click', function(e) {
-                e.stopPropagation();
-                FOTOMOTO.API.showWindow(FOTOMOTO.API.CANVAS, img[getCurrent()].dataset.url);
-            }, false);
-            checkout.addEventListener('click', function(e) {
-                e.stopPropagation();
-                FOTOMOTO.API.checkout();
-            }, false);
-            //(function() {
-            //    if (fotomotoLoaded) {
-            //        if (FMJQ.isReady) {
-            //            return buy.classList.add("show");
-            //        }
-            //    }
-            //    setTimeout(arguments.callee, 250);
-            //})();
-            fotomotoCallback.push(function() {
-                buy.classList.add("show");
-                setInterval(function() {
-                    checkout.classList.toggle("show", FOTOMOTO.API.getTotalItems() > 0);
-                }, 1000);
-            });
+        function toggle() {
+            let current = getCurrent(), next = current ^ 1;
+            setCurrent(next);
+            // transitionend event not well supported over all browsers.
+            setTimeout(function() { loadNext(current, img[next].dataset.id, story); }, 666);
+        }
+        function nextHandler(e) {
+            e.stopPropagation();
+            if (e.detail > 1) return; // double click or more
+            toggle();
+        }
+        function buyHandler(e) {
+            e.stopPropagation();
+            FOTOMOTO.API.showWindow(FOTOMOTO.API.CANVAS, img[getCurrent()].dataset.url);
+        }
+        function checkoutHandler(e) {
+            e.stopPropagation();
+            FOTOMOTO.API.checkout();
+        }
+        function closeHandler(e) {
+            e.stopPropagation();
+            container.classList.remove("showing");
+            controlHandlers(false);
+        }
+        function noHandler(e) { e.stopPropagation(); }
+        function controlHandlers(add) {
+            let fn = add ? "addEventListener" : "removeEventListener";
+            img[1][fn]('click', nextHandler, false);
+            //img[1][fn]('dblclick', noHandler, false);
+            img[1][fn]('dragstart', nextHandler, false);
+            container.querySelector(".close")[fn]('click', closeHandler, false);
+            buy[fn]('click', buyHandler, false);
+            checkout[fn]('click', checkoutHandler, false);
+        }
+        function fotomotoInitialized() {
+            buy.classList.add("show");
+            setInterval(function() {
+                checkout.classList.toggle("show", FOTOMOTO.API.getTotalItems() > 0);
+            }, 1000);
         }
 
         load(0, file, story);
         setTimeout(function() { loadNext(1, file, story); }, 100);
         setCurrent(0);
         container.classList.add("showing")
+        controlHandlers(true);
+        if (fotomotoLoaded) fotomotoInitialized()
+        else if (fotomotoCallback.indexOf(fotomotoInitialized) < 0) fotomotoCallback.push(fotomotoInitialized);
+
     }
     function renderStory(template, data) {
         function loadImages(story, index, container, priority) {
