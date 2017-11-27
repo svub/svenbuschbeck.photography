@@ -68,7 +68,7 @@ $PHPTHUMB_CONFIG['cache_directory_depth'] = 2; // If this larger than zero, cach
 //   based on last-access date and/or number of files and/or total filesize.
 
 //$PHPTHUMB_CONFIG['cache_maxage'] = null;            // never delete cached thumbnails based on last-access time
-$PHPTHUMB_CONFIG['cache_maxage'] = 86400 * 90;        // delete cached thumbnails that haven't been accessed in more than [30 days] (value is maximum time since last access in seconds to avoid deletion)
+$PHPTHUMB_CONFIG['cache_maxage'] = 86400 * 366;       // delete cached thumbnails that haven't been accessed in more than [30 days] (value is maximum time since last access in seconds to avoid deletion)
 
 //$PHPTHUMB_CONFIG['cache_maxsize'] = null;           // never delete cached thumbnails based on byte size of cache directory
 $PHPTHUMB_CONFIG['cache_maxsize'] = 50 * 1024 * 1024; // delete least-recently-accessed cached thumbnails when more than [10MB] of cached files are present (value is maximum bytesize of all cached files). Note: this only counts file size, does not count space "wasted" by directory entries in the cache structure -- see notes under $PHPTHUMB_CONFIG['cache_directory_depth']
@@ -147,17 +147,17 @@ if (phpthumb_functions::version_compare_replacement(phpversion(), '4.3.2', '>=')
 
 // * Default output configuration:
 $PHPTHUMB_CONFIG['output_format']    = 'jpeg'; // default output format ('jpeg', 'png' or 'gif') - thumbnail will be output in this format (if available in your version of GD or ImageMagick). This is only used if the "f" parameter is not specified, and if the thumbnail can't be output in the input format.
-$PHPTHUMB_CONFIG['output_maxwidth']  = 0;      // default maximum thumbnail width.  If this is zero then default width  is the width  of the source image. This is always overridden by ?w=___ GETstring parameter
-$PHPTHUMB_CONFIG['output_maxheight'] = 0;      // default maximum thumbnail height. If this is zero then default height is the height of the source image. This is always overridden by ?h=___ GETstring parameter
+$PHPTHUMB_CONFIG['output_maxwidth']  = 2000;      // default maximum thumbnail width.  If this is zero then default width  is the width  of the source image. This is always overridden by ?w=___ GETstring parameter
+$PHPTHUMB_CONFIG['output_maxheight'] = 2000;      // default maximum thumbnail height. If this is zero then default height is the height of the source image. This is always overridden by ?h=___ GETstring parameter
 $PHPTHUMB_CONFIG['output_interlace'] = true;   // if true: interlaced output for GIF/PNG, progressive output for JPEG; if false: non-interlaced for GIF/PNG, baseline for JPEG.
 
 // * Error message configuration
-$PHPTHUMB_CONFIG['error_image_width']           = 400;      // default width for error images
-$PHPTHUMB_CONFIG['error_image_height']          = 100;      // default height for error images
+$PHPTHUMB_CONFIG['error_image_width']           = 800;      // default width for error images
+$PHPTHUMB_CONFIG['error_image_height']          = 400;      // default height for error images
 $PHPTHUMB_CONFIG['error_message_image_default'] = '';       // Set this to the name of a generic error image (e.g. '/images/error.png') that you want displayed in place of any error message that may occur. This setting is overridden by the 'err' parameter, which does the same thing.
-$PHPTHUMB_CONFIG['error_bgcolor']               = 'CCCCFF'; // background color of error message images
-$PHPTHUMB_CONFIG['error_textcolor']             = 'FF0000'; // color of text in error messages
-$PHPTHUMB_CONFIG['error_fontsize']              = 1;        // size of text in error messages, from 1 (smallest) to 5 (largest)
+$PHPTHUMB_CONFIG['error_bgcolor']               = 'FFCCCC'; // background color of error message images
+$PHPTHUMB_CONFIG['error_textcolor']             = '333333'; // color of text in error messages
+$PHPTHUMB_CONFIG['error_fontsize']              = 3;        // size of text in error messages, from 1 (smallest) to 5 (largest)
 $PHPTHUMB_CONFIG['error_die_on_error']          = true;     // die with error message on any fatal error (recommended with standalone phpThumb.php)
 $PHPTHUMB_CONFIG['error_silent_die_on_error']   = false;    // simply die with no output of any kind on fatal errors (not recommended)
 $PHPTHUMB_CONFIG['error_die_on_source_failure'] = true;     // die with error message if source image cannot be processed by phpThumb() (usually because source image is corrupt in some way). If false the source image will be passed through unprocessed, if true (default) an error message will be displayed.
