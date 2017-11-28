@@ -1,5 +1,5 @@
-"strict mode";
-let fotomotoLoaded = false;
+'use strict';
+let fotomotoLoaded = false,
     fotomotoCallback = [];
 function load() {
     let local = location.href.indexOf('file:///') > -1,
@@ -30,15 +30,14 @@ function load() {
     function fullScreen(file, story) {
         let container = document.querySelector('#fullscreen'),
             img       = container.querySelectorAll(".image"),
-            buy       = container.querySelector(".buy");
+            buy       = container.querySelector(".buy"),
             checkout  = container.querySelector(".checkout");
 
         function load(index, file, story) {
-            with(img[index]) {
-                dataset.id = file;
-                dataset.url = imageUrl(file, story.id);
-                style.backgroundImage = "url(\"" + dataset.url + "\")";
-            }
+            let image = img[index]; // no with(img[index]) { ... } in strict mode :(
+            image.dataset.id = file;
+            image.dataset.url = imageUrl(file, story.id);
+            image.style.backgroundImage = "url(\"" + image.dataset.url + "\")";
         }
         function nextId(currentId, story) {
             return story.files[(story.files.indexOf(currentId) + 1) % story.files.length];
@@ -88,6 +87,7 @@ function load() {
         function controlHandlers(add) {
             let fn = add ? "addEventListener" : "removeEventListener";
             img[1][fn]('click', nextHandler, false);
+            img[1][fn]('touchstart', nextHandler, false);
             //img[1][fn]('dblclick', noHandler, false);
             img[1][fn]('dragstart', nextHandler, false);
             container.querySelector(".close")[fn]('click', closeHandler, false);
@@ -110,7 +110,7 @@ function load() {
         else if (fotomotoCallback.indexOf(fotomotoInitialized) < 0) fotomotoCallback.push(fotomotoInitialized);
 
     }
-    function renderStory(template, data) {
+    function renderStory(template, storyData) {
         function loadImages(story, index, container, priority) {
             if (index >= story.files.length) return;
             let file = story.files[index],
@@ -144,9 +144,8 @@ function load() {
     }
 
     let priority = 0
-    for (storyData of data) {
-        storyElement = renderStory(storyTemplate, storyData, priority++)
-        add(storyElement, container);
+    for (let storyData of data) {
+        add(renderStory(storyTemplate, storyData, priority++), container);
     }
 }
 
