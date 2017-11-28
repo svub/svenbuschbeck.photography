@@ -102,6 +102,10 @@ section.stories {
   margin: .15rem .666rem .666rem 0;
 }
 
+.intro h2 {
+  margin-bottom: .666rem;
+}
+
 footer::before {
   content: "\2014  = + = \2014";
   display: block;
