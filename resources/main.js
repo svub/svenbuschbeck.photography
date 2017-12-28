@@ -154,6 +154,8 @@ function fotomoto_loaded() {
     for (callback of fotomotoCallback) {
         callback();
     }
+    let frame = document.querySelector('#fm_analytic_frame');
+    if (frame) frame.parentNode.removeChild(frame);
 }
 
 document.addEventListener("DOMContentLoaded", load, false);
