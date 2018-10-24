@@ -31,6 +31,18 @@ html, body, main, article, header {
   min-height: 100vh;
 }
 
+noscript {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1em;
+  z-index: 1;
+  background: white;
+  color: black;
+}
+
 html.dark {
   color: #fefef4;
   background: #333;
@@ -90,6 +102,7 @@ header .welcome .image.current {
 }
 
 header h1 {
+  background: white;
   top: 0;
   right: 0;
   left: 0;
@@ -100,8 +113,8 @@ header h1 {
 header .scrolldown {
   color: white;
   transform: rotate(90deg);
-  bottom: -.8rem;
-  left: .333rem;
+  bottom: -1rem;
+  left: .8rem;
   font-size: 4rem;
   opacity: .333;
   box-shadow: 0 0 1rem .25rem rgba(0,0,0,.1);
@@ -272,6 +285,7 @@ footer .intro h2:after {
   display: none !important;
 }
 
+/* mobile */
 @media screen and (max-width: 640px) and (orientation: portrait), screen and (max-height: 640px) and (orientation: landscape) {
   html {
     font-size: 20px;
@@ -282,22 +296,28 @@ footer .intro h2:after {
     left: 0 !important;
   }
 
+  header .welcome {
+    top: 0;
+  }
+
+  header h1 {
+    background: rgba(255, 255, 255, .666);
+  }
+
   footer .intro {
     columns: 1;
   }
 }
 
+/* large */
 @media screen and (min-width: 640px) and (orientation: portrait), screen and (min-height: 640px) and (orientation: landscape) {
   html {
     font-size: 24px;
   }
 }
 
+/* hd */
 @media screen and (min-width: 1900px) {
-  html {
-    font-size: 24px;
-  }
-
   footer .intro {
     columns: 3;
   }
