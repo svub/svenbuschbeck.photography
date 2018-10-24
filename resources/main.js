@@ -51,7 +51,7 @@ function load() {
         }
         function buyHandler(e) {
             e.stopPropagation();
-            FOTOMOTO.API.showWindow(FOTOMOTO.API.CANVAS, imageUrl(story, position));
+            FOTOMOTO.API.showWindow(FOTOMOTO.API.CANVAS, imageUrl(story, slide.position));
         }
         function checkoutHandler(e) {
             e.stopPropagation();
