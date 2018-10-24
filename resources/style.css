@@ -43,7 +43,7 @@ noscript {
   color: black;
 }
 
-html.dark {
+html.dark, html.dark h1 {
   color: #fefef4;
   background: #333;
 }
@@ -52,16 +52,13 @@ html.dark a {
   text-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
-html.bright {
+html.bright, html.bright h1 {
   color: #332;
   background: #fefefe;
 }
 html.bright a {
   color: #110;
   text-shadow: 0 0 1px rgba(16, 16, 0, .125);
-}
-
-article {
 }
 
 p {
@@ -90,7 +87,7 @@ header .welcome {
 header .welcome .image {
   width: 100%;
   height: 100%;
-  background-position: center 66%;
+  background-position: center bottom;
   background-size: cover;
   background-repeat: no-repeat;
   opacity: 0;
@@ -102,7 +99,7 @@ header .welcome .image.current {
 }
 
 header h1 {
-  background: white;
+  /* background: white; */
   top: 0;
   right: 0;
   left: 0;
@@ -118,6 +115,26 @@ header .scrolldown {
   font-size: 4rem;
   opacity: .333;
   box-shadow: 0 0 1rem .25rem rgba(0,0,0,.1);
+}
+
+header .theme.toggle {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  opacity: .5;
+}
+html.bright header .theme.toggle {
+  background: #333;
+  border: 1px solid #fefefe;
+}
+
+html.dark header .theme.toggle {
+  background: #fefef4;
+  border: 1px solid #332;
 }
 
 section, footer {
@@ -194,7 +211,17 @@ footer .intro h2:after {
   display: block;
 }
 
+footer .intro code {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 4rem;
+  vertical-align: bottom;
+}
+
 #fullscreen {
+  z-index: 1;
   position: fixed;
   top: 0;
   right: 100%;
@@ -202,7 +229,7 @@ footer .intro h2:after {
   left: -100%;
   background: rgba(0, 0, 0, .9);
   opacity: 0;
-  transition: all .666s ease;
+  transition: all .333s ease-out;
 }
 #fullscreen.showing {
   opacity: 1;
@@ -222,7 +249,7 @@ footer .intro h2:after {
   background: center no-repeat;
   background-size: contain; /* not compatible with background */
   opacity: 0;
-  transition: opacity .666s ease;
+  transition: opacity .666s ease-out;
 }
 
 #fullscreen .image.current {
