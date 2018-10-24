@@ -18,61 +18,40 @@ function load() {
     function add(node, container) {
         container.appendChild(node);
     }
-    function imageUrl(file, storyId, thumbnail) {
+    function imageUrl(story, position, thumbnail) {
         // for mobile, the thumbnails could be 360x240, should be about the same
         let width = 431, height = 288,
-            fileLocation = "../photos/" + storyId + "/" + file;
+            file = story.files[position],
+            fileLocation = "../photos/" + story.id + "/" + file;
         // phones are about 600-700px high, tablets around 1000, so 400-based steps should be fine
         if (!thumbnail) width = height = Math.ceil(Math.max(window.innerWidth, window.innerHeight) / 400) * 400;
         return local ? fileLocation : "http://svenbuschbeck.photography/phpThumb/phpThumb.php?w=" + width + "&h=" + height + "&src=../" + fileLocation;
-        //return local ? fileLocation : "http://svenbuschbeck.photography/phpThumb/phpThumb.php/" + width + "x" + height + ";../" + fileLocation;
     }
-    function fullScreen(file, story) {
-        let container = document.querySelector('#fullscreen'),
-            img       = container.querySelectorAll(".image"),
+    function fullScreen(story, position) {
+
+        var slide = new window.slide({
+                id: '#fullscreen',
+                source: function imageSource(position) {
+                    return imageUrl(story, position);
+                },
+                onChange: function onChange(position){
+                    if (fotomotoLoaded) {
+                        FOTOMOTO.API.checkinImage(imageUrl(story, position));
+                    }
+                }});
+        var img       = slide.img,
+            container = slide.container,
             buy       = container.querySelector(".buy"),
             checkout  = container.querySelector(".checkout");
 
-        function load(index, file, story) {
-            let image = img[index]; // no with(img[index]) { ... } in strict mode :(
-            image.dataset.id = file;
-            image.dataset.url = imageUrl(file, story.id);
-            image.style.backgroundImage = "url(\"" + image.dataset.url + "\")";
-        }
-        function nextId(currentId, story) {
-            return story.files[(story.files.indexOf(currentId) + 1) % story.files.length];
-        }
-        function loadNext(index, currentId, story) {
-            load(index, nextId(currentId, story), story);
-        }
-        function getCurrent() {
-            return img[0].classList.contains("current") ? 0 : 1;
-        }
-        function checkCart() {
-        }
-        function setCurrent(index) {
-            img[index].classList.add("current");
-            img[index ^ 1].classList.remove("current");
-
-            if (fotomotoLoaded) {
-                FOTOMOTO.API.checkinImage(img[index].src);
-            }
-            return index;
-        }
-        function toggle() {
-            let current = getCurrent(), next = current ^ 1;
-            setCurrent(next);
-            // transitionend event not well supported over all browsers.
-            setTimeout(function() { loadNext(current, img[next].dataset.id, story); }, 666);
-        }
         function nextHandler(e) {
             e.stopPropagation();
-            if (e.detail > 1) return; // double click or more
-            toggle();
+            if (e.detail > 1) return; // double or more clicks
+            slide.next();
         }
         function buyHandler(e) {
             e.stopPropagation();
-            FOTOMOTO.API.showWindow(FOTOMOTO.API.CANVAS, img[getCurrent()].dataset.url);
+            FOTOMOTO.API.showWindow(FOTOMOTO.API.CANVAS, imageUrl(story, position));
         }
         function checkoutHandler(e) {
             e.stopPropagation();
@@ -88,7 +67,6 @@ function load() {
             let fn = add ? "addEventListener" : "removeEventListener";
             img[1][fn]('click', nextHandler, false);
             img[1][fn]('touchstart', nextHandler, false);
-            //img[1][fn]('dblclick', noHandler, false);
             img[1][fn]('dragstart', nextHandler, false);
             container.querySelector(".close")[fn]('click', closeHandler, false);
             buy[fn]('click', buyHandler, false);
@@ -101,9 +79,7 @@ function load() {
             }, 1000);
         }
 
-        load(0, file, story);
-        setTimeout(function() { loadNext(1, file, story); }, 100);
-        setCurrent(0);
+        slide.reset(position);
         container.classList.add("showing")
         controlHandlers(true);
         if (fotomotoLoaded) fotomotoInitialized()
@@ -113,20 +89,18 @@ function load() {
     function renderStory(template, storyData) {
         function loadImages(story, index, container, priority) {
             if (index >= story.files.length) return;
-            let file = story.files[index],
-                image = imageTemplate.cloneNode(),
-                dummy;
-            image.dataset.id = file;
-            image.src = imageUrl(file, story.id, true);
+            let image = imageTemplate.cloneNode();
+            image.src = imageUrl(story, index, true);
             image.onload = image.onerror = function(event) {
-                if (dummy = container.querySelector(".dummy")) {
+                let dummy = container.querySelector(".dummy");
+                if (dummy) {
                     container.removeChild(dummy);
                 }
                 if (event.type != "error") add(image, container);
                 setTimeout(function(){
                     image.classList.remove("new");
                     image.onclick = function() {
-                        fullScreen(file, story);
+                        fullScreen(story, index);
                     }
                     loadImages(story, index + 1, container, priority);
                 }, 1 + index*10 + priority*50);
@@ -142,6 +116,21 @@ function load() {
         loadImages(storyData, 0, story, priority);
         return story;
     }
+
+    function randomIndex(a) { return Math.floor(Math.random() * a.length); }
+
+    function slideShow(data) {
+        var slide = new window.slide({
+                id: 'header .welcome',
+                source: function imageSource(position) {
+                    const story = data[randomIndex(data)];
+                    return imageUrl(story, randomIndex(story.files));
+                },
+                onChange: function onChange(){ },
+                auto: 10000 });
+    }
+
+    slideShow(data);
 
     let priority = 0
     for (let storyData of data) {

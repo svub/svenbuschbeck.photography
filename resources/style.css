@@ -13,7 +13,7 @@ html {
 }
 
 /* bold stuff */
-h1, h2, h3, h4, h5, h6, .story .title, a {
+h1, h2, h3, h4, h5, h6, .story .title, a, strong {
   font-weight: 300;
 }
 
@@ -25,6 +25,10 @@ h2 {
 }
 h3 {
   font-size: 1.1rem;
+}
+
+html, body, main, article, header {
+  min-height: 100vh;
 }
 
 html.dark {
@@ -46,7 +50,6 @@ html.bright a {
 }
 
 article {
-  margin: .666rem .666rem;
 }
 
 p {
@@ -57,8 +60,59 @@ a {
   text-decoration: none;
 }
 
+header {
+  position: relative;
+}
+
+header * {
+  position: absolute;
+}
+
+header .welcome {
+  top: 3rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+header .welcome .image {
+  width: 100%;
+  height: 100%;
+  background-position: center 66%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity .666s ease;
+}
+
+header .welcome .image.current {
+  opacity: 1;
+}
+
+header h1 {
+  top: 0;
+  right: 0;
+  left: 0;
+  padding: .666rem .666rem .333rem .666rem;
+  box-shadow: 0 0 .333rem 0 rgba(0,0,0,.1);
+}
+
+header .scrolldown {
+  color: white;
+  transform: rotate(90deg);
+  bottom: -.8rem;
+  left: .333rem;
+  font-size: 4rem;
+  opacity: .333;
+  box-shadow: 0 0 1rem .25rem rgba(0,0,0,.1);
+}
+
+section, footer {
+  margin: .666rem .666rem;
+}
+
 section.stories {
-  margin: 2.666rem 0;
+  margin: 2.666rem .666rem;
   min-height: 30rem;
 }
 
@@ -67,10 +121,14 @@ section.stories {
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-  margin-bottom: 1.333rem;
+  margin-bottom: 2.666rem;
 }
 
-.story .title {
+.story .text {
+  margin-bottom: .333rem;
+}
+
+.story .text .title {
   display: inline;
 }
 
@@ -96,22 +154,31 @@ section.stories {
   opacity: 0;
 }
 
-.intro .me {
-  width: 33vw;
-  max-width: 12rem;
-  float: left;
-  margin: .15rem .666rem .666rem 0;
-}
-
-.intro h2 {
-  margin-bottom: .666rem;
-}
-
 footer::before {
   content: "\2014  = + = \2014";
   display: block;
   text-align: center;
   margin-bottom: 2.666rem;
+}
+
+footer .intro {
+  columns: 2;
+}
+
+footer .intro .me {
+  width: 25vw;
+  max-width: 9rem;
+  float: left;
+  margin: .15rem .666rem .666rem 0;
+}
+
+footer .intro h2 {
+  margin-bottom: .666rem;
+}
+footer .intro h2:after {
+  content: "";
+  clear: both;
+  display: block;
 }
 
 #fullscreen {
@@ -214,10 +281,24 @@ footer::before {
     top: 0 !important;
     left: 0 !important;
   }
+
+  footer .intro {
+    columns: 1;
+  }
 }
 
 @media screen and (min-width: 640px) and (orientation: portrait), screen and (min-height: 640px) and (orientation: landscape) {
   html {
     font-size: 24px;
+  }
+}
+
+@media screen and (min-width: 1900px) {
+  html {
+    font-size: 24px;
+  }
+
+  footer .intro {
+    columns: 3;
   }
 }

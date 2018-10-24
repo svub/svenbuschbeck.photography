@@ -35,11 +35,16 @@
     <meta name="twitter:image:height" content="384">
   </head>
   <body>
-    <noscript>You got JavaScript disabled so this page wont work. And so will almost all pages on the Internet these days. JavaScript is safe. I'm a software developer, so I know about the &quot;risks&quot; and have JavaScript enabled with no worries at all. Just keep your browser up-to-date and you'll be fine.</noscript>
+    <noscript>You got JavaScript disabled so this page won't work. And so will almost any page on the Internet these days. JavaScript is safe. I'm a software developer, so I know about the &quot;risks&quot; and have JavaScript enabled with no worries at all. Just keep your browser up-to-date and you'll be fine.</noscript>
     <main>
       <article>
         <header>
+          <div class="welcome">
+            <div class="image"></div>
+            <div class="image"></div>
+          </div>
           <h1 class="name" itemprop="name">Sven&nbsp;Buschbeck Film&nbsp;Photography</h1>
+          <div class="scrolldown">&raquo</div>
         </header>
         <section class="stories">
           <div class="story template">
@@ -50,13 +55,39 @@
         </section>
         <footer>
           <section class="intro">
-            <img class="me" alt="Sven Buschbeck picture" src="resources/me.jpg">
-            <h2>Hi! I'm Sven, a passionate film photographer loving the outdoors, traveling and immersing into new cultures and idea.</h2>
-            <p>This is my portfolio. If you enjoy the photos and want to support my work, you can order prints right from this site. My cameras are Pentacon Praktica MTL5 and LTL, using 50mm/f1.8, 100mm/f2.8, 135mm/f2.8, and 200mm/f4 prime lenses. I love strong colors, my favorite films are Kodak Ektar 100 and Agfa Precisa CT 100.</p>
-            <p>Traveling is my natural state, follow me on <a href="https://www.instagram.com/sven.buschbeck/" target="_blank">Instagram</a> to get the latest photos and to know where I currently am. I'm happy to meet up!</p>
-            <p>I love doing exhibitions and collaborations, and am looking for models, please get in touch at <a href="mailto:me@svenbuschbeck.photography">me@svenbuschbeck.photography</a></p>
+            <h2>
+              <img class="me" alt="Sven Buschbeck picture" src="resources/me.jpg">
+              Hi! I'm Sven! I love the beauty and art of film photography, capturing cultural diversity and nature.
+            </h2>
             <p>
-               Apart from photography, I'm  doing web technology consulting and development. This zen style hand-made page was created in about fifteen hours with pure JavaScript and Css (fully responsive, less than 20k in total unminified and unzipped). If you're interested, have a look at <a href="http://svenbuschbeck.net">svenbuschbeck.net</a> for details, and get in touch at <a href="mailto:me@svenbuschbeck.net">me@svenbuschbeck.net</a>.
+              In the recent years of my life I am fortunate to being able to travel, live in foreign countries,
+              and immerse in diverse culture. Traveling became my natural state.
+              Curious? Follow me on <a href="https://www.instagram.com/sven.buschbeck/" target="_blank">Instagram</a>
+              to be part of the journey and get to know where I currently am. Message me to meet up.
+            </p>
+            <p>
+              <strong>Gear: </strong>I'm using two Pentacon Praktica cameras, an MTL5 and an LTL with four prime lenses:
+              50mm/f1.8, 100mm/f2.8, 135mm/f2.8, and 200mm/f4.
+              I love strong colors and thus the famous Kodak Ektar 100.
+            </p>
+            <p>
+              <strong>Working together: </strong>There is so much to learn!
+              I'm always in to go out and discover, take pictures together, learn from each other.
+              Interested in modeling? Got a place to do exhibitions?
+              Please get in touch at <a href="mailto:me@svenbuschbeck.photography">me@svenbuschbeck.photography</a>.
+            </p>
+            <p>
+              <strong>Support: </strong>
+              If you enjoy my photos and want to support me, you can order prints right from this site or
+              sent BTC donations to <code>3G6Hm754rkUoQFuu7x3dLYo1pPE5kDXcKC</code> or
+              ETH to <code>0xf6dCc6D8d699930F5c97F28B7916519C7541662b</code>.
+            </p>
+            <p>
+              <strong>Technology: </strong>
+              This page was created in about twenty hours with pure HTML, JavaScript, and CSS, is fully responsive,
+              and weighs in at less than 20k in total&mdash;unminified and unzipped.
+              Interested? I offer web technology consulting and development. Have a look at <a href="http://svenbuschbeck.net">svenbuschbeck.net</a> for details,
+              and get in touch at <a href="mailto:me@svenbuschbeck.net">me@svenbuschbeck.net</a>.
             </p>
           </section>
         </footer>
@@ -74,6 +105,7 @@
     if (! String.prototype.trim) { String.prototype.trim = function () { return this.replace(/^\s*(\S*(?:\s+\S+)*)\s*$/, "$1"); }; }
     </script>
     <script type="text/javascript" src="resources/data.js"></script>
+    <script type="text/javascript" src="resources/slide.js"></script>
     <script type="text/javascript" src="resources/main.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js"></script>
     <script type="text/javascript" src="//widget.fotomoto.com/stores/script/7ac4f5e25748acfee580b24ed7c401c3003b6fe5.js?api=true"></script>
