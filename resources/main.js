@@ -2,12 +2,13 @@
 let fotomotoLoaded = false,
     fotomotoCallback = [];
 function load() {
-    let local           = location.href.indexOf('file:///') > -1,
-        container       = document.querySelector("section.stories"),
-        storyTemplate   = getTemplate(".story", container),
-        imageTemplate   = getTemplate("img", storyTemplate),
-        portraitImages  = [],
-        landscapeImages = [];
+    const tooSmall        = window.matchMedia("only screen and (max-width: 872px)").matches,
+          local           = location.href.indexOf('file:///') > -1,
+          container       = document.querySelector("section.stories"),
+          storyTemplate   = getTemplate(".story", container),
+          imageTemplate   = getTemplate("img", storyTemplate),
+          portraitImages  = [],
+          landscapeImages = [];
 
     function getTemplate(selector, container) {
         let template = document.querySelector(selector + ".template", container);
@@ -57,9 +58,20 @@ function load() {
                 close.click();
             }
         }
+        let useFotomoto = tooSmall ? null : true;
         function buyHandler(e) {
             e.stopPropagation();
-            FOTOMOTO.API.showWindow(FOTOMOTO.API.CANVAS, imageUrl(story, slide.position));
+            if (useFotomoto === null) {
+                useFotomoto = confirm("Hey there, thanks!\n" +
+                    'You seem to be on a mobile or a device with a rather small screen. ' +
+                    'The thing is the printing service provider "Fotomoto" ' +
+                    'doesn\'t work well on mobiles and small screens.' +
+                    "\nI recommend you use a desktop, laptop, or at least a big tablet.\n\n" +
+                    "Want to try anyhow?");
+            }
+            if (useFotomoto) {
+                FOTOMOTO.API.showWindow(FOTOMOTO.API.CANVAS, imageUrl(story, slide.position));
+            }
         }
         function checkoutHandler(e) {
             e.stopPropagation();
@@ -203,7 +215,7 @@ function load() {
 
 function fotomoto_loaded() {
     fotomotoLoaded = true;
-    for (callback of fotomotoCallback) {
+    for (let callback of fotomotoCallback) {
         callback();
     }
     let frame = document.querySelector('#fm_analytic_frame');
