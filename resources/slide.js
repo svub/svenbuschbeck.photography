@@ -8,9 +8,16 @@ function slide(options) {
     const self     = this;
 
 
-    function load(index, url) {
-        let image = self.img[index];
+    function load(index, url, loaded) {
+        var image = self.img[index];
         image.style.backgroundImage = "url(\"" + url + "\")";
+        if (loaded) {
+            var tmp = new Image();
+            tmp.src = url;
+            tmp.onload = function() {
+                loaded(index);
+            }
+        }
     }
 
     function setCurrent(index) {
@@ -23,13 +30,13 @@ function slide(options) {
         return self.img[0].classList.contains("current") ? 0 : 1;
     }
 
-    this.next = function() {
-        let current = getCurrent(), next = current ^ 1;
+    this.next = function(loaded) {
+        var current = getCurrent(), next = current ^ 1;
         setCurrent(next);
         self.position++
         // transitionend event not well supported over all browsers.
         setTimeout(function() {
-            load(current, options.source(self.position + 1));
+            load(current, options.source(self.position + 1), loaded);
         }, options.animationDuration || 666);
     }
 
@@ -42,8 +49,17 @@ function slide(options) {
 
     self.container.classList.add('slide');
     if (options.auto) {
-        setInterval(self.next, options.auto);
+        // setInterval(self.next, options.auto);
         self.reset();
+        function loadAndNext(position) {
+            setTimeout(function () {
+                self.next(loadAndNext);
+            }, options.auto);
+            if (options.loaded && position >= 0) {
+                options.loaded(position);
+            }
+        }
+        loadAndNext();
     }
     return this;
 }

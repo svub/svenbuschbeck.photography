@@ -8,7 +8,8 @@ function load() {
           storyTemplate   = getTemplate(".story", container),
           imageTemplate   = getTemplate("img", storyTemplate),
           portraitImages  = [],
-          landscapeImages = [];
+          landscapeImages = [],
+          htmlClasses = document.documentElement.classList;
 
     function getTemplate(selector, container) {
         let template = document.querySelector(selector + ".template", container);
@@ -32,7 +33,7 @@ function load() {
     }
     function fullScreen(story, position) {
 
-        var slide = new window.slide({
+        let slide = new window.slide({
                 id: '#fullscreen',
                 source: function imageSource(position) {
                     return imageUrl(story, position);
@@ -106,8 +107,8 @@ function load() {
         else if (fotomotoCallback.indexOf(fotomotoInitialized) < 0) fotomotoCallback.push(fotomotoInitialized);
 
     }
-    function renderStory(template, storyData) {
-        function loadImages(story, index, container, priority) {
+    function renderStory(template, storyData, delay) {
+        function loadImages(story, index, container, delay) {
             if (index >= story.files.length) return;
             let image = imageTemplate.cloneNode();
             image.src = imageUrl(story, index, true);
@@ -116,16 +117,18 @@ function load() {
                 if (dummy) {
                     container.removeChild(dummy);
                 }
-                if (event.type != "error") add(image, container);
+                if (event.type != "error") {
+                    add(image, container);
+                    ((image.width > image.height) ? landscapeImages : portraitImages).push(imageUrl(story, index));
+                }
                 setTimeout(function(){
                     image.classList.remove("new");
                     image.onclick = function() {
                         fullScreen(story, index);
                     }
-                    loadImages(story, index + 1, container, priority);
-                }, 1 + index*10 + priority*50);
+                    loadImages(story, index + 1, container, delay);
+                }, 1 + index*10 + delay*50);
 
-                ((image.width > image.height) ? landscapeImages : portraitImages).push(imageUrl(story, index));
             }
         }
         let story = template.cloneNode(true);
@@ -135,25 +138,38 @@ function load() {
             for (let x = 0; x < Math.random()*100; x++) storyLines += " yada"
         story.querySelector(".lines").innerText = storyLines;
         let counter = 0;
-        loadImages(storyData, 0, story, priority);
+        loadImages(storyData, 0, story, delay);
         return story;
     }
 
-    function slideShow(data) {
+    function slideShow(data, firstLoaded) {
         function randomIndex(a) { return Math.floor(Math.random() * a.length); }
 
-        let images = window.innerWidth > window.innerHeight ? landscapeImages : portraitImages,
+        let first = true,
+            previous = -1,
             slide = new window.slide({
                 id: 'header .welcome',
                 source: function imageSource(position) {
+                    let images = window.innerWidth > window.innerHeight ? landscapeImages : portraitImages;
                     if (images.length > 0) {
                         return images[randomIndex(images)];
                     }
                     const story = data[randomIndex(data)];
                     return imageUrl(story, randomIndex(story.files));
                 },
+                loaded: function imageLoaded(position) {
+                    if (first && firstLoaded) {
+                        first = false;
+                        firstLoaded();
+                    }
+                },
                 onChange: function onChange(){ },
                 auto: 10000 });
+    }
+
+    function loaded() {
+        htmlClasses.remove('loading');
+        htmlClasses.add('loaded');
     }
 
     // hooks
@@ -183,19 +199,20 @@ function load() {
         code.title = 'Click to copy address';
     });
     document.querySelector('.theme.toggle').addEventListener('click', function(e){
-        const htmlClasses = document.documentElement.classList,
-              isBright = htmlClasses.contains('bright');
+        const isBright = htmlClasses.contains('bright');
         htmlClasses.toggle('bright', !isBright);
         htmlClasses.toggle('dark', isBright);
     });
 
     // init
 
-    slideShow(data);
+    slideShow(data, function firstSlideShowImageLoaded() {
+        loaded();
+    });
 
-    let priority = 0
+    let delay = 0
     for (let storyData of data) {
-        add(renderStory(storyTemplate, storyData, priority++), container);
+        add(renderStory(storyTemplate, storyData, delay++), container);
     }
 
     // load fotomoto
@@ -211,6 +228,8 @@ function load() {
     loadScript("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.min.js", function() {
         loadScript("//widget.fotomoto.com/stores/script/7ac4f5e25748acfee580b24ed7c401c3003b6fe5.js?api=true");
     });
+
+    // setTimeout(loaded, 3000 + Date.now() - window.loadingStarted);
 }
 
 function fotomoto_loaded() {
