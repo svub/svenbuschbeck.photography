@@ -1,0 +1,24 @@
+{
+  "name": "svenbuschbeck.photography",
+  "version": "1.0.0",
+  "description": "This is my photography website hosted at svenbuschbeck.photography.",
+  "main": "list-files.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://svenbuschbeck@bitbucket.org/svenbuschbeck/svenbuschbeck.photography.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/svenbuschbeck/svenbuschbeck.photography#readme",
+  "dependencies": {
+    "path": "^0.12.7",
+    "rimraf": "^2.6.3",
+    "sharp": "^0.22.1"
+  }
+}
