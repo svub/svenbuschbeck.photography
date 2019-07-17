@@ -12,5 +12,5 @@ Inside each folder
 * Place your images as JPG (again, alphabetic order)
 * And a `text.json` file with two fields: "title" and "description"
 
-Then run `update-data.sh`.
+Then run `prepare.js` (you need [https://nodejs.org/en/](Node.js) installed on your system).
 This will read the `photos` folder and create all the necessary files and structures in `docs`.
